@@ -1,0 +1,40 @@
+name: Update Riven Data
+
+on:
+  push:
+    paths:
+      - .github/workflows/flat.yml
+  workflow_dispatch:
+  schedule:
+    - cron: '0 10 * * 2'
+
+jobs:
+  scheduled:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Check out repo
+        uses: actions/checkout@v2
+      - name: 🦕 Setup deno
+        uses: denoland/setup-deno@main
+        with:
+          deno-version: v1.x
+      - name: 🚚 Fetch PC data 
+        uses: githubocto/flat@v3
+        with:
+          http_url: http://n9e5v4d8.ssl.hwcdn.net/repos/weeklyRivensPC.json
+          downloaded_filename: pc.json
+      - name: 🚚 Fetch Switch data 
+        uses: githubocto/flat@v3
+        with:
+          http_url: http://n9e5v4d8.ssl.hwcdn.net/repos/weeklyRivensSWI.json
+          downloaded_filename: swi.json
+      - name: 🚚 Fetch Xbox data 
+        uses: githubocto/flat@v3
+        with:
+          http_url: http://n9e5v4d8.ssl.hwcdn.net/repos/weeklyRivensXB1.json
+          downloaded_filename: xb1.json
+      - name: 🚚 Fetch PS4 data 
+        uses: githubocto/flat@v3
+        with:
+          http_url: http://n9e5v4d8.ssl.hwcdn.net/repos/weeklyRivensPS4.json
+          downloaded_filename: ps4.json
